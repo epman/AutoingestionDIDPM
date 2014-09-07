@@ -7,6 +7,13 @@ import ConfigParser
 import shutil
 
 
+def getMonthDateString(m, y):
+    s = str(y)
+    if m < 10:
+        s = s + '0' + str(m)
+    else:
+        s = s + str(m)
+    return s;
 
 def getDayDateString(d, m, y):
     s = str(y)
@@ -36,7 +43,26 @@ config.read('config.ini')
 VENDOR_ID = config.get('vendor', 'vendorid')
 
 mkdir_p("data")
+mkdir_p("datam")
 now = datetime.now()
+
+# Monthly
+month = now.month
+year = now.year
+for i in range(1, 12):
+    month = month-1;
+    if (month<=0):
+        month = 12
+        year = year-1
+    fdate =  getMonthDateString(month,  year )
+    fname = 'S_M_' + VENDOR_ID + '_' + fdate + '.txt.gz'
+    fpath = 'data/'+fname
+    if os.path.isfile(fpath):
+        print fpath+' already downloaded'
+    else:
+        print  'java Autoingestion autoingestion.properties ' + VENDOR_ID+ ' Sales Monthly Summary '+fdate
+        call(["java", "Autoingestion", "autoingestion.properties", VENDOR_ID, "Sales", "Monthly", "Summary", fdate])
+        shutil.move(fname, fpath)
 
 # Daily
 for i in range(1, 26):

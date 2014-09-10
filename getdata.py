@@ -47,6 +47,7 @@ mkdir_p("datam")
 now = datetime.now()
 
 # Monthly
+print "Download monthly reports"
 month = now.month
 year = now.year
 for i in range(1, 12):
@@ -65,6 +66,7 @@ for i in range(1, 12):
         shutil.move(fname, fpath)
 
 # Daily
+print "Download daily reports"
 for i in range(1, 26):
     d=now-timedelta(days=i)
     fdate =  getDayDateString(d.day, d.month,  d.year )
@@ -75,5 +77,6 @@ for i in range(1, 26):
     else:
         print  'java Autoingestion autoingestion.properties ' + VENDOR_ID+ ' Sales Daily Summary '+fdate
         call(["java", "Autoingestion", "autoingestion.properties", VENDOR_ID, "Sales", "Daily", "Summary", fdate])
-        shutil.move(fname, fpath)
+	if os.path.isfile(fname):
+            shutil.move(fname, fpath)
 

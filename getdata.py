@@ -98,8 +98,8 @@ while (year>2010):
     if os.path.isfile(fpath):
         print fpath+' already downloaded'
     else:
-        print  'java Autoingestion autoingestion.properties ' + VENDOR_ID+ ' Sales Yearly Summary '+fdate
-        call(["java", "Autoingestion", "autoingestion.properties", VENDOR_ID, "Sales", "Yearly", "Summary", fdate])
+        print  'java Autoingestion autoingestion.properties ' + VENDOR_ID+ ' Sales Yearly Summary '+str(year)
+        call(["java", "Autoingestion", "autoingestion.properties", VENDOR_ID, "Sales", "Yearly", "Summary", str(year)])
         if os.path.isfile(fname):
             shutil.move(fname, fpath)
 
